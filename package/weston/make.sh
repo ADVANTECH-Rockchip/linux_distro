@@ -11,7 +11,8 @@ fi
 
 if [ ! -d $BUILD_DIR/$PKG-$VERSION ];then
 	tar -xf $DOWNLOAD_DIR/$PKG-$VERSION.tar.xz -C $BUILD_DIR/$PKG
-	mv $BUILD_DIR/$PKG/$PKG-$VERSION/* $BUILD_DIR/$PKG/
+	cp $BUILD_DIR/$PKG/$PKG-$VERSION/* $BUILD_DIR/$PKG/ -rf
+	rm $BUILD_DIR/$PKG/$PKG-$VERSION/* -rf
 fi
 
 cd $BUILD_DIR/$PKG
@@ -20,6 +21,7 @@ if [ -d $DISTRO_DIR/package/$PKG/$VERSION ]; then
 		echo "apply patch: "$p
 		patch -p1 < $p;
 	done
+	cp $DISTRO_DIR/package/$PKG/weston.sh $TARGET_DIR/etc/profile.d/
 fi
 
 autoreconf -i
